@@ -16,11 +16,15 @@ function Todolist() {
     const handleDescriptionInput = (e) => {
         setDesc({...desc, description: e.target.value})
     }
+
+    const handleDateChange = (e) => {
+      setValue(e.target)
+    }
   
     const addTodo = (e) => {
-      const newDate = `${moment(value).date()}.${moment(value).month()}.${moment(value).year()}`
-      const copy = desc;
-      copy.date = newDate
+      const nDate = `${moment(value).format('DD-MM-YYYY')}`
+      const copy = {...desc, date:nDate};
+      copy.date = nDate
       e.preventDefault()
       setTodos([...todos, copy])
       setDesc({description:'', date:''})
@@ -37,7 +41,7 @@ function Todolist() {
           <input type="text" value={desc.description} onChange={handleDescriptionInput} />
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={['DatePicker']}>
-              <DatePicker defaultValue={dayjs('2023-10-24')} value={value} onChange={(newValue) => setValue(newValue)} />
+              <DatePicker value={value} onChange={handleDateChange} />
             </DemoContainer>
           </LocalizationProvider>
           <input type="submit" value="Add"/>
